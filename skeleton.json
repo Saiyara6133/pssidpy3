@@ -1,0 +1,157 @@
+{
+    "_meta":{
+        "display-name": "Example Measurements"
+    },
+    
+    "archives": {
+        "example_esmond_archive": {
+            "archiver": "esmond",
+            "data": {
+                "measurement-agent": "{% scheduled_by_address %}",
+                "url": "https://FILL_IN_ESMOND_HOSTNAME_OR_IP/esmond/perfsonar/archive/"
+            }
+        }
+    },
+    
+    "addresses": {
+        "FILL_IN_ADDRESS_NAME_1": { "address": "FILL_IN_HOSTNAME_OR_IP_1" },
+        "FILL_IN_ADDRESS_NAME_2": { "address": "FILL_IN_HOSTNAME_OR_IP_2" }
+    },
+    
+    "SSID_list": {
+        "MWireless": {
+            "name": "MWireless",
+            "min_signal": "55",
+            "AuthMethod": {
+                "type": "User",
+                "UID": "fakeUID",
+                "Password": "fakepassword"
+            }
+        },
+        "EduRoam": {
+            "name": "EduRoam",
+            "min_signal": "50",
+            "AuthMethod": {
+                "type": "User",
+                "UID": "fakeUID",
+                "Password": "fakepassword"
+            }
+        }
+    },
+    
+    "groups": {
+        "example_group_mesh": {
+            "type": "mesh",
+            "addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_1" },
+                { "name": "FILL_IN_ADDRESS_NAME_2" }
+            ]
+        },
+        
+        "example_group_disjoint": {
+            "type": "disjoint",
+            "a-addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_1" }
+            ],
+            "b-addresses": [
+                { "name": "FILL_IN_ADDRESS_NAME_2" }
+            ]
+        }
+    },
+    
+    "tests": {
+        "example_test_rtt": {
+            "type": "rtt",
+            "spec": {
+                "dest": "testpoint2"
+            }
+        },
+        "example_test_latencybg": {
+            "type": "latencybg",
+            "spec": {
+                "source": "{% address[0] %}",
+                "dest": "{% address[1] %}",
+                "flip": "{% flip %}"
+            }
+        },
+        "example_test_throughput": {
+            "type": "throughput",
+            "spec": {
+                "dest": "perfsonar-bin-arbl.umnet.umich.edu"
+            }
+        },
+        "example_test_trace": {
+            "type": "trace",
+            "spec": {
+                "source": "{% address[0] %}",
+                "dest": "{% address[1] %}"
+            }
+        }
+    },
+    
+    "schedules": {
+        "schedule_every_4_hours": {
+            "repeat": "0 */4 * * *"
+        },
+        "schedule_every_minute": {
+            "repeat": "*/1 * * * *"
+        },   
+        "schedule_every_hour": {
+            "repeat": "0 * * * *"
+        },   
+        "schedule_Tuesday_10AM": {
+            "repeat": "0 10 * * 2"
+        },   
+        "schedule_Tuesday_10:10AM": {
+            "repeat": "10 10 * * 2"
+        },   
+        "schedule_10_minutes": {
+            "repeat": "*/10 * * * *"
+        },
+        "schedule_4_minutes": {
+            "repeat": "*/4 * * * *"
+        },
+        "schedule_Tuesday_11pm": {
+            "repeat": "40 23 * * *"
+        }
+    },
+    
+    "tasks": {
+        "example_task_rtt": {
+            "SSIDs": [ "MWireless", "EduRoam" ],
+            "test": "example_test_rtt",
+            "archives": [ "example_esmond_archive" ],
+            "schedule": [ "schedule_every_minute", "schedule_Tuesday_10:10AM" ],
+            "_meta": {
+                "display-name": "Example RTT Tests"
+            }
+        },
+        "example_task_throughput": {
+            "SSIDs": [ "MWireless", "EduRoam" ],
+            "test": "example_test_throughput",
+            "archives": [ "example_esmond_archive" ],
+            "schedule": ["schedule_10_minutes"],
+            "_meta": {
+                "display-name": "Example Throughput Tests"
+            }
+        },
+        "example_task_latency": {
+            "SSIDs": [ "MWireless", "EduRoam" ],
+            "test": "example_test_rtt",
+            "archives": [ "example_esmond_archive" ],
+            "schedule": ["schedule_4_minutes"],
+            "_meta": {
+                "display-name": "Example Throughput Tests"
+            }
+        },
+        "example_task_letsee": {
+            "SSIDs": [ "MWireless", "EduRoam" ],
+            "test": "example_test_rtt",
+            "archives": [ "example_esmond_archive" ],
+            "schedule": ["schedule_Tuesday_11pm"],
+            "_meta": {
+                "display-name": "Example Throughput Tests"
+            }
+        }
+    }
+}

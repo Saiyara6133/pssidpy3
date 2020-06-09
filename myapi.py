@@ -92,9 +92,9 @@ def fail(message):
 
 def json_load(source):
     """Load a blob of JSON into Python objects"""
-    print(source)
+    print(source.decode("utf-8"))
     try:
-        json_in = json.loads(str(source))
+        json_in = json.loads(str(source.decode("utf-8")))
     except ValueError as ex:
         raise ValueError("Invalid JSON: " + str(ex))
 
@@ -263,6 +263,7 @@ tasks_url = "https://%s/pscheduler/tasks" % (LEAD)
 #print "Posting to", tasks_url
 
 def main(TASK):
+	print(json_dump(TASK))
 	try:
 	    status, task_url = url_post(tasks_url, data=json_dump(TASK))
 	except Exception as ex:
@@ -337,7 +338,7 @@ def main(TASK):
 
 	try:
 	    # The end time comes back as ISO 8601.  Parse it.
-	    end_time = dateutil.parser.parse(run_data["end-time"])
+	    end_time = parser.parse(run_data["end-time"])
 	except ValueError as ex:
 	    fail("Server did not return a valid end time for the task: %s" % (str(ex)))
 
